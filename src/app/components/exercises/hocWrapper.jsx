@@ -1,25 +1,26 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import CardWrapper from "../common/Card";
 
 const HOCWrapper = (Component) => (props) => {
-  const user = JSON.parse(localStorage.getItem("user"));
+  const [auth, setAuth] = useState(
+    JSON.parse(localStorage.getItem("user")).isAuth
+  );
   const handleLogIn = () => {
     localStorage.setItem("user", JSON.stringify({ isAuth: true }));
-    console.log(isAuth);
+    setAuth(JSON.parse(localStorage.getItem("user")).isAuth);
+    console.log("Log In");
   };
   const handleLogOut = () => {
     localStorage.setItem("user", JSON.stringify({ isAuth: false }));
-    console.log(isAuth);
+    setAuth(JSON.parse(localStorage.getItem("user")).isAuth);
+    console.log("Log Out");
   };
-  const isAuth = useEffect(() => {
-    return user.isAuth;
-  }, [handleLogIn, handleLogOut]);
 
   return (
     <CardWrapper>
       <Component
         {...props}
-        isAuth={isAuth}
+        isAuth={auth}
         onLogin={handleLogIn}
         onLogOut={handleLogOut}
       />
